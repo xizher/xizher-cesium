@@ -1,7 +1,7 @@
 {
   "name": "@xizher/cesium",
   "version": "1.0.1",
-  "description": "",
+  "description": "基于Cesium的业务功能型二次开发地图API",
   "main": "dist/index.js",
   "scripts": {
     "test": "vite",
@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/xizher/xizher-cesium.git"
   },
-  "keywords": [],
+  "keywords": ["cesium", "typescript"],
   "author": "wuxizhe",
   "license": "ISC",
   "bugs": {

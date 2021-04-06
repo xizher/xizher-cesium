@@ -8,11 +8,13 @@ import { ImageryLayer, ImageryProvider } from 'cesium'
 /** 天地图密钥 */
 const TIAN_DI_TU_KEY = 'd524142425d379adcf285daba823e28a'
 
+/** 底图控制插件配置项 */
 export interface IBasemapOptions {
   key?: string
   visible?: boolean
 }
 
+/** 底图控制插件类 */
 export class Basemap extends WebMapPlugin<{
   'change': { key: string, visible: boolean }
   'change:key': { key: string }
@@ -135,6 +137,10 @@ export class Basemap extends WebMapPlugin<{
     return this
   }
 
+  /**
+   * 创建GeoQ底图项
+   * @returns this
+   */
   private _createGeoQDiTu () : this {
     Object.entries(Basemap._GeoQUrls).forEach(
       ([key, url]) => this.createBasemapItem(key, createUrlTemplateImageryProvider(url))
