@@ -4,6 +4,8 @@ import Basemap from '../plugins/basemap/basemap';
 import MapCursor from '../plugins/map-cursor/map-cursor';
 import WebMapPlugin from '../web-map-plugin/web-map-plugin';
 import Map3dTile from '../plugins/map-3d-tile/map-3d-tile';
+import MapTools from '../plugins/map-tools/map-tools';
+import MapCamera from '../plugins/map-camera/map-camera';
 /** 视图对象接口 */
 export interface IViewer extends Viewer {
     $owner: WebMap;
@@ -29,6 +31,8 @@ export declare class WebMap extends Observer<{
     basemap?: Basemap;
     mapCursor?: MapCursor;
     map3dTile?: Map3dTile;
+    mapTools?: MapTools;
+    mapCamera?: MapCamera;
     /** 地图目标容器Id */
     private _targetDiv;
     /** 视图对象 */

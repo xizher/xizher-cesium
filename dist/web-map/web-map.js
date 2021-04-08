@@ -1,4 +1,4 @@
-import { Viewer, Color, Cartesian3, } from 'cesium';
+import { Viewer, Color, Cartesian3, createWorldTerrain, } from 'cesium';
 import Observer from '@xizher/observer';
 import { baseUtils } from '@xizher/js-utils';
 import { clacualteHeightFromZoom } from '../utilities/base.utilities';
@@ -61,7 +61,10 @@ export class WebMap extends Observer {
         div.setAttribute('id', this._options.creditContainer);
         div.style.display = 'none';
         document.body.append(div);
-        this._viewer = Object.assign(new Viewer(this._targetDiv, this._options), { $owner: this });
+        this._viewer = Object.assign(new Viewer(this._targetDiv, {
+            ...this._options,
+            terrainProvider: createWorldTerrain()
+        }), { $owner: this });
         this._viewer.imageryLayers.removeAll();
         this._viewer.scene.globe.baseColor = new Color(0, 0, 0, 0);
         this._camera = Object.assign(this._viewer.camera, { $owner: this });

@@ -10,7 +10,7 @@
 
 <script>
 import { onMounted, onUnmounted, ref } from 'vue'
-import { WebMap, MapCursor, Basemap, Map3dTile } from '../../dist'
+import { WebMap, MapCursor, Basemap, Map3dTile, MapTools, MapCamera } from '../../dist'
 import BasemapControl from './components/BasemapControl.vue'
 import TilesetControl from './components/TilesetControl.vue'
 export default {
@@ -35,6 +35,8 @@ export default {
         ],
         defaultZoomTilesetName: '局部楼层模型'
       }))
+      .use(new MapTools())
+      .use(new MapCamera())
     const loaded = ref(false)
     const handler = webMap.on('loaded', () => {
       window.webMap = webMap

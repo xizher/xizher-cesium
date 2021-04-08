@@ -4,6 +4,7 @@ import {
   Camera,
   Cartesian3,
   Scene,
+  createWorldTerrain,
 } from 'cesium'
 import Observer from '@xizher/observer'
 import { baseUtils } from '@xizher/js-utils'
@@ -12,6 +13,8 @@ import MapCursor from '../plugins/map-cursor/map-cursor'
 import WebMapPlugin from '../web-map-plugin/web-map-plugin'
 import { clacualteHeightFromZoom } from '../utilities/base.utilities'
 import Map3dTile from '../plugins/map-3d-tile/map-3d-tile'
+import MapTools from '../plugins/map-tools/map-tools'
+import MapCamera from '../plugins/map-camera/map-camera'
 
 /** 视图对象接口 */
 export interface IViewer extends Viewer {
@@ -44,6 +47,8 @@ export class WebMap extends Observer<{
   basemap?: Basemap
   mapCursor?: MapCursor
   map3dTile?: Map3dTile
+  mapTools?: MapTools
+  mapCamera?: MapCamera
 
   //#endregion
 
@@ -132,7 +137,10 @@ export class WebMap extends Observer<{
     div.style.display = 'none'
     document.body.append(div)
 
-    this._viewer = Object.assign(new Viewer(this._targetDiv, this._options), { $owner: this })
+    this._viewer = Object.assign(new Viewer(this._targetDiv, {
+      ...this._options,
+      terrainProvider: createWorldTerrain()
+    }), { $owner: this })
     this._viewer.imageryLayers.removeAll()
     this._viewer.scene.globe.baseColor = new Color(0, 0, 0, 0)
 
