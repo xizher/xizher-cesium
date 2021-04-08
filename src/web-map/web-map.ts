@@ -1,18 +1,37 @@
-import { Viewer, Color } from 'cesium'
+import {
+  Viewer,
+  Color,
+  Camera,
+  Cartesian3,
+  Scene,
+} from 'cesium'
 import Observer from '@xizher/observer'
 import { baseUtils } from '@xizher/js-utils'
 import Basemap from '../plugins/basemap/basemap'
 import MapCursor from '../plugins/map-cursor/map-cursor'
 import WebMapPlugin from '../web-map-plugin/web-map-plugin'
+import { clacualteHeightFromZoom } from '../utilities/base.utilities'
+import Map3dTile from '../plugins/map-3d-tile/map-3d-tile'
 
 /** 视图对象接口 */
 export interface IViewer extends Viewer {
   $owner: WebMap
 }
 
+/** 相机对象接口 */
+export interface ICamera extends Camera {
+  $owner: WebMap
+}
+/** 相机场景接口 */
+export interface IScene extends Scene {
+  $owner: WebMap
+}
+
 /** WebMap配置项接口 */
 export interface IWebMapOptions extends Viewer.ConstructorOptions {
   baseUrl?: string
+  center?: [number, number]
+  zoom?: number
 }
 
 /** WebMap类 */
@@ -24,6 +43,7 @@ export class WebMap extends Observer<{
 
   basemap?: Basemap
   mapCursor?: MapCursor
+  map3dTile?: Map3dTile
 
   //#endregion
 
@@ -35,9 +55,17 @@ export class WebMap extends Observer<{
   /** 视图对象 */
   private _viewer : IViewer
 
+  /** 视图对象 */
+  private _camera : ICamera
+
+  /** 场景对象 */
+  private _scene: IScene
+
   /** 配置项 */
   private _options: IWebMapOptions = {
-    baseUrl: '',
+    baseUrl: 'https://cesium.com/downloads/cesiumjs/releases/1.80/Build/Cesium/',
+    center: [0, 0],
+    zoom: 3,
     animation: false,
     infoBox: false,
     timeline: false,
@@ -65,6 +93,14 @@ export class WebMap extends Observer<{
     return this._viewer
   }
 
+  public get camera () : ICamera {
+    return this._camera
+  }
+
+  public get scene () : IScene {
+    return this._scene
+  }
+
   //#endregion
 
   //#region 构造函数
@@ -90,13 +126,25 @@ export class WebMap extends Observer<{
     // @ts-ignore
     window.CESIUM_BASE_URL = this._options.baseUrl
     baseUtils.loadCss(`${this._options.baseUrl}Widgets/widgets.css`)
+
     const div = document.createElement('div')
     div.setAttribute('id', this._options.creditContainer as string)
     div.style.display = 'none'
     document.body.append(div)
+
     this._viewer = Object.assign(new Viewer(this._targetDiv, this._options), { $owner: this })
     this._viewer.imageryLayers.removeAll()
     this._viewer.scene.globe.baseColor = new Color(0, 0, 0, 0)
+
+    this._camera = Object.assign(this._viewer.camera, { $owner: this })
+    const height = clacualteHeightFromZoom(this._options.zoom)
+    const [lon, lat] = this._options.center
+    this._camera.flyTo({
+      destination: Cartesian3.fromDegrees(lon, lat, height),
+      duration: 3
+    })
+
+    this._scene = Object.assign(this._viewer.scene, { $owner: this })
   }
 
   //#endregion

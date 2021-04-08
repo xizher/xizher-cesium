@@ -4,6 +4,7 @@ import WebMapPlugin from '../../web-map-plugin/web-map-plugin';
 import { ImageryLayer } from 'cesium';
 /** 天地图密钥 */
 const TIAN_DI_TU_KEY = 'd524142425d379adcf285daba823e28a';
+/** 底图控制插件类 */
 export class Basemap extends WebMapPlugin {
     //#endregion
     //#region 构造函数
@@ -65,6 +66,10 @@ export class Basemap extends WebMapPlugin {
         createTianDiTuItem('影像', '4326')('矢量', '4326')('地形', '4326')('影像', '3857')('矢量', '3857')('地形', '3857');
         return this;
     }
+    /**
+     * 创建GeoQ底图项
+     * @returns this
+     */
     _createGeoQDiTu() {
         Object.entries(Basemap._GeoQUrls).forEach(([key, url]) => this.createBasemapItem(key, createUrlTemplateImageryProvider(url)));
         return this;
