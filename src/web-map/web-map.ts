@@ -5,6 +5,7 @@ import {
   Cartesian3,
   Scene,
   createWorldTerrain,
+  EntityCollection,
 } from 'cesium'
 import Observer from '@xizher/observer'
 import { baseUtils } from '@xizher/js-utils'
@@ -15,6 +16,7 @@ import { clacualteHeightFromZoom } from '../utilities/base.utilities'
 import Map3dTile from '../plugins/map-3d-tile/map-3d-tile'
 import MapTools from '../plugins/map-tools/map-tools'
 import MapCamera from '../plugins/map-camera/map-camera'
+import MapEntities from '../plugins/map-entities/map-entities'
 
 /** 视图对象接口 */
 export interface IViewer extends Viewer {
@@ -27,6 +29,11 @@ export interface ICamera extends Camera {
 }
 /** 相机场景接口 */
 export interface IScene extends Scene {
+  $owner: WebMap
+}
+
+/** 实体对象接口 */
+export interface IEntities extends EntityCollection {
   $owner: WebMap
 }
 
@@ -49,6 +56,7 @@ export class WebMap extends Observer<{
   map3dTile?: Map3dTile
   mapTools?: MapTools
   mapCamera?: MapCamera
+  mapEntities?: MapEntities
 
   //#endregion
 
@@ -65,6 +73,8 @@ export class WebMap extends Observer<{
 
   /** 场景对象 */
   private _scene: IScene
+
+  private _entities: IEntities
 
   /** 配置项 */
   private _options: IWebMapOptions = {
@@ -104,6 +114,10 @@ export class WebMap extends Observer<{
 
   public get scene () : IScene {
     return this._scene
+  }
+
+  public get entities () : IEntities {
+    return this._entities
   }
 
   //#endregion
@@ -153,6 +167,23 @@ export class WebMap extends Observer<{
     })
 
     this._scene = Object.assign(this._viewer.scene, { $owner: this })
+
+    this._entities = Object.assign(this._viewer.entities, { $owner: this })
+
+    this._scene.globe.depthTestAgainstTerrain = true
+    // const handler = new ScreenSpaceEventHandler(this._scene.canvas)
+    // handler.setInputAction(movement => {
+    //   const position = this._scene.pickPosition(movement.position)
+    //   const pos = Cartographic.fromCartesian(position)
+
+    //   console.log([pos.longitude / Math.PI * 180, pos.latitude / Math.PI * 180, pos.height])
+    // }, ScreenSpaceEventType.LEFT_CLICK)
+    // handler.setInputAction(movement => {
+    //   const position = this._scene.pickPosition(movement.position)
+    //   const pos = Cartographic.fromCartesian(position)
+
+    //   console.log([pos.longitude / Math.PI * 180, pos.latitude / Math.PI * 180, pos.height])
+    // }, ScreenSpaceEventType.RIGHT_CLICK)
   }
 
   //#endregion

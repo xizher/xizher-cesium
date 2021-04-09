@@ -1,5 +1,5 @@
 import Observer from '@xizher/observer'
-import WebMap, { ICamera, IScene, IViewer } from '../web-map/web-map'
+import WebMap, { ICamera, IEntities, IScene, IViewer } from '../web-map/web-map'
 
 /** WebMap插件类 */
 class WebMapPlugin<T> extends Observer<T> {
@@ -19,7 +19,11 @@ class WebMapPlugin<T> extends Observer<T> {
   /** 相机对象 */
   protected camera_ : ICamera
 
+  /** 场景对象 */
   protected scene_ : IScene
+
+  /** 实体对象 */
+  protected entities_ : IEntities
 
   //#endregion
 
@@ -55,6 +59,7 @@ class WebMapPlugin<T> extends Observer<T> {
     this.viewer_ = webMap.viewer
     this.camera_ = webMap.camera
     this.scene_ = webMap.scene
+    this.entities_ = webMap.entities
     return this
   }
 

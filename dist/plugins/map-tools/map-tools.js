@@ -10,6 +10,7 @@ import LookUpTool from './tools/look/look-up';
 import LookDownTool from './tools/look/look-down';
 import LookLeftTool from './tools/look/look-left';
 import LookRightTool from './tools/look/look-right';
+import DrawTool from './tools/draw/draw-tool';
 /** 地图工具链 */
 export class MapTools extends WebMapPlugin {
     //#endregion
@@ -33,17 +34,18 @@ export class MapTools extends WebMapPlugin {
     /** 初始化 */
     _init() {
         this._toolPool
-            .set('default', new BaseTool(this.viewer_, this.camera_, this.scene_))
-            .set('move-forward', new MoveForwardTool(this.viewer_, this.camera_, this.scene_))
-            .set('move-backward', new MoveBackwardTool(this.viewer_, this.camera_, this.scene_))
-            .set('move-up', new MoveUpTool(this.viewer_, this.camera_, this.scene_))
-            .set('move-down', new MoveDownTool(this.viewer_, this.camera_, this.scene_))
-            .set('move-left', new MoveLeftTool(this.viewer_, this.camera_, this.scene_))
-            .set('move-right', new MoveRightTool(this.viewer_, this.camera_, this.scene_))
-            .set('look-up', new LookUpTool(this.viewer_, this.camera_, this.scene_))
-            .set('look-down', new LookDownTool(this.viewer_, this.camera_, this.scene_))
-            .set('look-left', new LookLeftTool(this.viewer_, this.camera_, this.scene_))
-            .set('look-right', new LookRightTool(this.viewer_, this.camera_, this.scene_));
+            .set('default', new BaseTool(this.viewer_.$owner))
+            .set('move-forward', new MoveForwardTool(this.viewer_.$owner))
+            .set('move-backward', new MoveBackwardTool(this.viewer_.$owner))
+            .set('move-up', new MoveUpTool(this.viewer_.$owner))
+            .set('move-down', new MoveDownTool(this.viewer_.$owner))
+            .set('move-left', new MoveLeftTool(this.viewer_.$owner))
+            .set('move-right', new MoveRightTool(this.viewer_.$owner))
+            .set('look-up', new LookUpTool(this.viewer_.$owner))
+            .set('look-down', new LookDownTool(this.viewer_.$owner))
+            .set('look-left', new LookLeftTool(this.viewer_.$owner))
+            .set('look-right', new LookRightTool(this.viewer_.$owner))
+            .set('draw-point', new DrawTool(this.viewer_.$owner));
         document.onkeydown = evt => {
             const code = evt.keyCode;
             switch (code) {

@@ -4,6 +4,7 @@ import WebMap from '../../web-map/web-map';
 export interface ITilesetOptions {
     name: string;
     url: string;
+    offsetHeight?: number;
 }
 export interface IMap3dTileOptions {
     tilesetITem?: ITilesetOptions[];

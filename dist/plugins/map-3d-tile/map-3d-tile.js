@@ -1,5 +1,6 @@
 import { baseUtils } from '@xizher/js-utils';
 import { Cesium3DTileset, Cesium3DTileStyle, } from 'cesium';
+import { setTilesetOffsetHeight } from '../../utilities/tileset.utilities';
 import WebMapPlugin from '../../web-map-plugin/web-map-plugin';
 /** 3dTile插件类 */
 export class Map3dTile extends WebMapPlugin {
@@ -39,6 +40,9 @@ export class Map3dTile extends WebMapPlugin {
             this.scene_.primitives.add(tileset);
             if (name === this._options.defaultZoomTilesetName) {
                 this.viewer_.flyTo(tileset);
+            }
+            if (tilesetOptions.offsetHeight) {
+                setTilesetOffsetHeight(tileset, tilesetOptions.offsetHeight);
             }
         });
         this._tilesetPool.set(name, tileset);

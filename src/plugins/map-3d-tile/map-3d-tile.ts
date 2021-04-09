@@ -3,12 +3,14 @@ import {
   Cesium3DTileset,
   Cesium3DTileStyle,
 } from 'cesium'
+import { setTilesetOffsetHeight } from '../../utilities/tileset.utilities'
 import WebMapPlugin from '../../web-map-plugin/web-map-plugin'
 import WebMap from '../../web-map/web-map'
 
 export interface ITilesetOptions {
   name: string
   url: string
+  offsetHeight?: number
 }
 
 export interface IMap3dTileOptions {
@@ -70,6 +72,9 @@ export class Map3dTile extends WebMapPlugin<{
       this.scene_.primitives.add(tileset)
       if (name === this._options.defaultZoomTilesetName) {
         this.viewer_.flyTo(tileset)
+      }
+      if (tilesetOptions.offsetHeight) {
+        setTilesetOffsetHeight(tileset, tilesetOptions.offsetHeight)
       }
     })
     this._tilesetPool.set(name, tileset)

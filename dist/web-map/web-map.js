@@ -49,6 +49,9 @@ export class WebMap extends Observer {
     get scene() {
         return this._scene;
     }
+    get entities() {
+        return this._entities;
+    }
     //#endregion
     //#region 私有方法
     /** 初始化 */
@@ -75,6 +78,19 @@ export class WebMap extends Observer {
             duration: 3
         });
         this._scene = Object.assign(this._viewer.scene, { $owner: this });
+        this._entities = Object.assign(this._viewer.entities, { $owner: this });
+        this._scene.globe.depthTestAgainstTerrain = true;
+        // const handler = new ScreenSpaceEventHandler(this._scene.canvas)
+        // handler.setInputAction(movement => {
+        //   const position = this._scene.pickPosition(movement.position)
+        //   const pos = Cartographic.fromCartesian(position)
+        //   console.log([pos.longitude / Math.PI * 180, pos.latitude / Math.PI * 180, pos.height])
+        // }, ScreenSpaceEventType.LEFT_CLICK)
+        // handler.setInputAction(movement => {
+        //   const position = this._scene.pickPosition(movement.position)
+        //   const pos = Cartographic.fromCartesian(position)
+        //   console.log([pos.longitude / Math.PI * 180, pos.latitude / Math.PI * 180, pos.height])
+        // }, ScreenSpaceEventType.RIGHT_CLICK)
     }
     //#endregion
     //#region 公有方法

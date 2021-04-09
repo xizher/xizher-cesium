@@ -27,6 +27,7 @@ class WebMapPlugin extends Observer {
         this.viewer_ = webMap.viewer;
         this.camera_ = webMap.camera;
         this.scene_ = webMap.scene;
+        this.entities_ = webMap.entities;
         return this;
     }
 }

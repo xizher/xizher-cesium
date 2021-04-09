@@ -29,7 +29,7 @@ export default {
       .use(new MapCursor())
       .use(new Map3dTile({
         tilesetITem: [
-          { name: '局部楼层模型', url: '/cesium/3dtile/buildings/tileset.json' },
+          { name: '局部楼层模型', url: '/cesium/3dtile/buildings/tileset.json', offsetHeight: 12 },
           { name: 'unknown', url: '/cesium/3dtile/unknown/tileset.json' },
           { name: 'unknown2', url: '/cesium/3dtile/unknown2/tileset.json' }
         ],

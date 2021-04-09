@@ -9,13 +9,14 @@ export class BaseTool extends Observer {
      * @param view 视图对象
      * @param isOnceTool 是否为一次性工具，默认为否
      */
-    constructor(viewer, camera, scene, isOnceTool = false) {
+    constructor(webMap, isOnceTool = false) {
         super();
         /** 工具是否为激活状态 */
         this._actived = false;
-        this.viewer_ = viewer;
-        this.camera_ = camera;
-        this.scene_ = scene;
+        this.viewer_ = webMap.viewer;
+        this.camera_ = webMap.camera;
+        this.scene_ = webMap.scene;
+        this.entities_ = webMap.entities;
         this._isOnceTool = isOnceTool;
         this.on('tool-actived', e => this.onToolActived_(e));
         this.on('tool-deactived', e => this.onToolDeActived_(e));

@@ -1,16 +1,21 @@
 import Observer, { IObserverCallbackParams } from '@xizher/observer'
-import { IViewer, ICamera, IScene } from '../../web-map/web-map'
+import WebMap, { IViewer, ICamera, IScene, IEntities } from '../../web-map/web-map'
 
 export type OnToolActivedParams<T> = IObserverCallbackParams<'tool-actived', T>
 export type OnToolDeActivedParams<T> = IObserverCallbackParams<'tool-deactived', T>
 export type OnToolActivedReture = boolean
 export type OnToolDeActivedReture = boolean
 
-/** 基础工具类 */
-export class BaseTool<T = unknown> extends Observer<T & { // eslint-disable-line @typescript-eslint/ban-types
+export interface IBaseToolEvent { // eslint-disable-line @typescript-eslint/ban-types
   'tool-actived': void // 工具打开
   'tool-deactived': void // 工具关闭
-}> {
+}
+
+/** 基础工具类 */
+export class BaseTool<T extends IBaseToolEvent = {
+  'tool-actived': void
+  'tool-deactived': void
+}> extends Observer<T> {
 
   //#region 私有方法
 
@@ -32,6 +37,9 @@ export class BaseTool<T = unknown> extends Observer<T & { // eslint-disable-line
 
   /** 场景对象 */
   protected scene_: IScene
+
+  /** 实体对象 */
+  protected entities_: IEntities
 
   //#endregion
 
@@ -55,11 +63,12 @@ export class BaseTool<T = unknown> extends Observer<T & { // eslint-disable-line
    * @param view 视图对象
    * @param isOnceTool 是否为一次性工具，默认为否
    */
-  constructor (viewer: IViewer, camera: ICamera, scene: IScene, isOnceTool = false) {
+  constructor (webMap: WebMap, isOnceTool = false) {
     super()
-    this.viewer_ = viewer
-    this.camera_ = camera
-    this.scene_ = scene
+    this.viewer_ = webMap.viewer
+    this.camera_ = webMap.camera
+    this.scene_ = webMap.scene
+    this.entities_ = webMap.entities
     this._isOnceTool = isOnceTool
 
     this.on('tool-actived', e => this.onToolActived_(e))

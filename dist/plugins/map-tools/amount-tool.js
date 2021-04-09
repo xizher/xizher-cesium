@@ -9,8 +9,8 @@ export class AmountTool extends BaseTool {
      * @param camera 相机对象
      * @param scene 场景对象
      */
-    constructor(viewer, camera, scene) {
-        super(viewer, camera, scene, true);
+    constructor(webMap) {
+        super(webMap, true);
         this.amount_ = 50;
     }
     //#endregion

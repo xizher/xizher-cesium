@@ -1,14 +1,18 @@
 import Observer, { IObserverCallbackParams } from '@xizher/observer';
-import { IViewer, ICamera, IScene } from '../../web-map/web-map';
+import WebMap, { IViewer, ICamera, IScene, IEntities } from '../../web-map/web-map';
 export declare type OnToolActivedParams<T> = IObserverCallbackParams<'tool-actived', T>;
 export declare type OnToolDeActivedParams<T> = IObserverCallbackParams<'tool-deactived', T>;
 export declare type OnToolActivedReture = boolean;
 export declare type OnToolDeActivedReture = boolean;
-/** 基础工具类 */
-export declare class BaseTool<T = unknown> extends Observer<T & {
+export interface IBaseToolEvent {
     'tool-actived': void;
     'tool-deactived': void;
-}> {
+}
+/** 基础工具类 */
+export declare class BaseTool<T extends IBaseToolEvent = {
+    'tool-actived': void;
+    'tool-deactived': void;
+}> extends Observer<T> {
     /** 是否为一次性工具 */
     private _isOnceTool;
     /** 工具是否为激活状态 */
@@ -19,6 +23,8 @@ export declare class BaseTool<T = unknown> extends Observer<T & {
     protected camera_: ICamera;
     /** 场景对象 */
     protected scene_: IScene;
+    /** 实体对象 */
+    protected entities_: IEntities;
     get isOnceTool(): boolean;
     get actived(): boolean;
     /**
@@ -27,7 +33,7 @@ export declare class BaseTool<T = unknown> extends Observer<T & {
      * @param view 视图对象
      * @param isOnceTool 是否为一次性工具，默认为否
      */
-    constructor(viewer: IViewer, camera: ICamera, scene: IScene, isOnceTool?: boolean);
+    constructor(webMap: WebMap, isOnceTool?: boolean);
     /** 工具激化处理事件 */
     protected onToolActived_(e: OnToolActivedParams<this>): OnToolActivedReture;
     /** 工具失活处理事件 */
