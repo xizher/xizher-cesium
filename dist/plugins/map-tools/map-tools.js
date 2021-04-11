@@ -45,7 +45,9 @@ export class MapTools extends WebMapPlugin {
             .set('look-down', new LookDownTool(this.viewer_.$owner))
             .set('look-left', new LookLeftTool(this.viewer_.$owner))
             .set('look-right', new LookRightTool(this.viewer_.$owner))
-            .set('draw-point', new DrawTool(this.viewer_.$owner));
+            .set('draw-point', new DrawTool(this.viewer_.$owner, { drawType: 'point' }))
+            .set('draw-polyline', new DrawTool(this.viewer_.$owner, { drawType: 'polyline' }))
+            .set('draw-polygon', new DrawTool(this.viewer_.$owner, { drawType: 'polygon' }));
         document.onkeydown = evt => {
             const code = evt.keyCode;
             switch (code) {

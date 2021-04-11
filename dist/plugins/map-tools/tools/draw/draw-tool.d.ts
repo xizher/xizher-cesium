@@ -1,7 +1,10 @@
 import { IObserverCallbackParams } from '@xizher/observer';
-import { Entity } from 'cesium';
+import { Entity, PointGraphics } from 'cesium';
+import PolylineGraphics from 'cesium/Source/DataSources/PolylineGraphics';
 import WebMap from '../../../../web-map/web-map';
+import { MapCursorType } from '../../../map-cursor/map-cursor';
 import BaseTool, { IBaseToolEvent, OnToolActivedParams, OnToolActivedReture, OnToolDeActivedParams, OnToolDeActivedReture } from '../../base-tool';
+import PolygonGraphics from 'cesium/Source/DataSources/PolygonGraphics';
 export declare type OnDrawStartParams<T> = IObserverCallbackParams<'draw-start', T> & {
     lon: number;
     lat: number;
@@ -29,19 +32,44 @@ export interface IDrawToolEvent extends IBaseToolEvent {
         entity: Entity;
     };
 }
+export interface IStyleOptions {
+    point?: PointGraphics.ConstructorOptions;
+    polyline?: PolylineGraphics.ConstructorOptions;
+    polygon?: PolygonGraphics.ConstructorOptions;
+}
+export declare type DrawType = 'point' | 'polyline' | 'polygon';
+export interface IDrawToolOptions {
+    drawType?: DrawType;
+}
 /** 绘图工具类 */
 export declare class DrawTool<T extends IDrawToolEvent> extends BaseTool<T> {
     /** 屏幕事件处理器 */
     private _handler;
+    /** 绘制完成样式 */
+    private _drawedOptions;
+    /** 绘制过程样式 */
+    private _drawingOptions;
+    /** 绘制类型 */
+    private _drawType;
+    /** 绘制过程实体 */
+    private _tempEntity;
+    /** 是否贴地 */
+    private _isClampToGround;
+    /** 鼠标样式 */
+    protected cursorType_: MapCursorType;
     /** 构造绘图工具对象 */
-    constructor(webMap: WebMap);
+    constructor(webMap: WebMap, options?: IDrawToolOptions);
     /**
      * 通过movement对象获取经纬度与高程值
      * @param movement movement对象
      */
     private _getLonLatHeightFromMovement;
+    /** 初始化绘制任务 */
+    private _initDrawAction;
     /** 初始化点绘制任务 */
     private _initDrawPointAction;
+    private _initDrawPolylineAction;
+    private _initDrawPolygonAction;
     /** 重写：工具激活触发事件 */
     protected onToolActived_(e: OnToolActivedParams<this>): OnToolActivedReture;
     /** 重写：工具失活触发事件 */
