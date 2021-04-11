@@ -31,8 +31,8 @@
     "vite": "^2.1.5"
   },
   "dependencies": {
-    "@xizher/js-ext": "^1.0.0",
-    "@xizher/js-utils": "^1.0.0",
+    "@xizher/js-ext": "^1.0.1",
+    "@xizher/js-utils": "^1.1.1",
     "@xizher/observer": "^1.0.2",
     "cesium": "^1.80.0",
     "vue": "^3.0.11"
