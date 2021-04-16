@@ -44,7 +44,7 @@ export declare class Basemap extends WebMapPlugin<{
      * 构造底图控制插件类
      * @param options 配置项
      */
-    constructor(options: IBasemapOptions);
+    constructor(options?: IBasemapOptions);
     /** 初始化 */
     private _init;
     /**
