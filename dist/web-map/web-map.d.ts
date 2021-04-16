@@ -28,6 +28,8 @@ export interface IWebMapOptions extends Viewer.ConstructorOptions {
     baseUrl?: string;
     center?: [number, number];
     zoom?: number;
+    debug?: boolean;
+    debugName?: string;
 }
 /** WebMap类 */
 export declare class WebMap extends Observer<{

@@ -42,6 +42,8 @@ export interface IWebMapOptions extends Viewer.ConstructorOptions {
   baseUrl?: string
   center?: [number, number]
   zoom?: number
+  debug?: boolean
+  debugName?: string
 }
 
 /** WebMap类 */
@@ -79,6 +81,8 @@ export class WebMap extends Observer<{
   /** 配置项 */
   private _options: IWebMapOptions = {
     baseUrl: 'https://cesium.com/downloads/cesiumjs/releases/1.80/Build/Cesium/',
+    debug: false,
+    debugName: 'webMap',
     center: [0, 0],
     zoom: 3,
     animation: false,
@@ -184,6 +188,10 @@ export class WebMap extends Observer<{
 
     //   console.log([pos.longitude / Math.PI * 180, pos.latitude / Math.PI * 180, pos.height])
     // }, ScreenSpaceEventType.RIGHT_CLICK)
+
+    if (this._options.debug) {
+      window[this._options.debugName] = this
+    }
   }
 
   //#endregion
