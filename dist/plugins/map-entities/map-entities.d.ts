@@ -1,5 +1,6 @@
 import { Entity } from 'cesium';
 import WebMapPlugin from '../../web-map-plugin/web-map-plugin';
+export declare type IEntity = Entity | Entity.ConstructorOptions;
 /** 地图实体控制插件类 */
 export declare class MapEntities extends WebMapPlugin<{}> {
     /** 构造地图实体控制插件对象 */
@@ -9,13 +10,13 @@ export declare class MapEntities extends WebMapPlugin<{}> {
      * @param entity 实体
      * @returns this
      */
-    addEntities(entity: Entity): this;
+    addEntities(entity: IEntity): this;
     /**
      * 添加实体对象
      * @param entities 实体
      * @returns this
      */
-    addEntities(entities: Entity[]): this;
+    addEntities(entities: IEntity[]): this;
     /**
      * 移除实体对象
      * @param entity 实体
@@ -38,12 +39,12 @@ export declare class MapEntities extends WebMapPlugin<{}> {
      * @param entity 实体
      * @returns this
      */
-    setEntities(entity: Entity): this;
+    setEntities(entity: IEntity): this;
     /**
      * 设置实体对象
      * @param entities 实体
      * @returns this
      */
-    setEntities(entities: Entity[]): this;
+    setEntities(entities: IEntity[]): this;
 }
 export default MapEntities;

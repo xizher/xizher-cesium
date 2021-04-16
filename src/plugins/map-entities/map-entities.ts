@@ -1,6 +1,8 @@
 import { Entity } from 'cesium'
 import WebMapPlugin from '../../web-map-plugin/web-map-plugin'
 
+export type IEntity = Entity | Entity.ConstructorOptions
+
 /** 地图实体控制插件类 */
 export class MapEntities extends WebMapPlugin<{
 
@@ -22,19 +24,19 @@ export class MapEntities extends WebMapPlugin<{
    * @param entity 实体
    * @returns this
    */
-  public addEntities (entity: Entity) : this
+  public addEntities (entity: IEntity) : this
   /**
    * 添加实体对象
    * @param entities 实体
    * @returns this
    */
-  public addEntities (entities: Entity[]) : this
+  public addEntities (entities: IEntity[]) : this
   /**
    * 添加实体对象
    * @param arg0 实体
    * @returns this
    */
-  public addEntities (arg0: Entity | Entity[]) : this {
+  public addEntities (arg0: IEntity | IEntity[]) : this {
     Array.isArray(arg0)
       ? arg0.forEach(entity => this.entities_.add(entity))
       : this.entities_.add(arg0)
@@ -79,19 +81,19 @@ export class MapEntities extends WebMapPlugin<{
    * @param entity 实体
    * @returns this
    */
-  public setEntities (entity: Entity) : this
+  public setEntities (entity: IEntity) : this
   /**
    * 设置实体对象
    * @param entities 实体
    * @returns this
    */
-  public setEntities (entities: Entity[]) : this
+  public setEntities (entities: IEntity[]) : this
   /**
    * 设置实体对象
    * @param arg0 实体
    * @returns this
    */
-  public setEntities (arg0: Entity | Entity[]) : this {
+  public setEntities (arg0: IEntity | IEntity[]) : this {
     return this.clearEntities()
       // eslint-disable-next-line
       // @ts-ignore
